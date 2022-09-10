@@ -5,7 +5,7 @@ const board = (() => {
 
     // Public variables/functions
 
-    let boardArray = [
+    const boardArray = [
         ["", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", ""],
@@ -18,6 +18,7 @@ const board = (() => {
 
     const boardFunc = () => {
         console.log("board func");
+        console.log("anote test");
     };
 
     // Pubsubs

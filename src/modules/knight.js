@@ -8,8 +8,13 @@ const knight = (() => {
         console.log("knight func");
     };
 
+    const preKnightMoves = (data) => {
+        console.log("pre move");
+        console.log(data);
+    };
+
     // Pubsubs
-    pubsub.subscribe("pageLoad", knightMoves);
+    pubsub.subscribe("pageLoad", preKnightMoves);
 
     return {};
 })();
