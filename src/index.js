@@ -2,7 +2,11 @@ import { pubsub } from "./modules/pubsub";
 import { knight } from "./modules/knight";
 import { board } from "./modules/board";
 
-pubsub.publish("pageLoad", { start: [0, 0], end: [3, 3] });
+// pubsub.publish("pageLoad", { start: [0, 0], end: [3, 3] });
+
+// console.log(knight);
+
+knight.knightMoves({ start: [0, 4], end: [3, 3] });
 
 console.log("test");
 
