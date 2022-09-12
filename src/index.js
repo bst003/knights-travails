@@ -6,7 +6,7 @@ import { board } from "./modules/board";
 
 // console.log(knight);
 
-knight.knightMoves({ start: [0, 4], end: [3, 3] });
+knight.knightMoves({ start: [0, 0], end: [3, 3] });
 
 console.log("test");
 

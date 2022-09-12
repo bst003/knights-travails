@@ -53,13 +53,31 @@ export const board = (() => {
             return;
         }
 
-        pubsub.publish("postCheckBaseData", data);
+        const newData = {
+            start: data.start,
+            end: data.end,
+            board: boardArray,
+        };
+
+        pubsub.publish("postCheckBaseData", newData);
+    };
+
+    const checkMovePos = (data) => {
+        console.log(data);
+
+        console.log("checking singe move");
+
+        Object.entries(data.movePos).forEach(([key, value]) => {
+            console.log(`${key} ${value}`); // "a 5", "b 7", "c 9"
+        });
     };
 
     // Pubsubs
     pubsub.subscribe("pageLoad", boardFunc);
 
     pubsub.subscribe("checkBaseData", checkBasePos);
+
+    pubsub.subscribe("checkMoveData", checkMovePos);
 
     return {};
 })();
