@@ -31,7 +31,7 @@ export const board = (() => {
         const startPosX = startPos[0];
         const startPosY = startPos[1];
 
-        console.log(startPosX);
+        // console.log(startPosX);
 
         const endPos = data.end;
         const endPosX = endPos[0];
@@ -63,14 +63,31 @@ export const board = (() => {
     };
 
     const checkMovePos = (data) => {
+        const newData = data;
+
         console.log(data);
 
         console.log("checking singe move");
 
-        Object.entries(data.movePos).forEach(([key, value]) => {
-            console.log(`${key} ${value}`); // "a 5", "b 7", "c 9"
+        Object.entries(newData.movePos).forEach(([key, value]) => {
+            if (
+                boardArray[value[0]] === undefined ||
+                boardArray[value[1]] === undefined
+            ) {
+                newData.movePos[key] = null;
+            }
         });
+
+        console.log("testing post entries");
+
+        newData.board = boardArray;
+
+        console.log(newData);
+
+        pubsub.publish("postCheckMoveData", newData);
     };
+
+    // const altTest = (value) => value.toUpperCase();
 
     // Pubsubs
     pubsub.subscribe("pageLoad", boardFunc);
@@ -78,6 +95,8 @@ export const board = (() => {
     pubsub.subscribe("checkBaseData", checkBasePos);
 
     pubsub.subscribe("checkMoveData", checkMovePos);
+
+    // pubsub.subscribe("testStuff", altTest);
 
     return {};
 })();

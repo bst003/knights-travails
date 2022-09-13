@@ -6,7 +6,7 @@ export const knight = (() => {
     // Public variables/functions
     const calcPossibleMoves = (data) => {
         console.log(data);
-        console.log("calc moves");
+        // console.log("calc moves");
 
         const startPos = data.start;
         const startPosX = startPos[0];
@@ -33,11 +33,46 @@ export const knight = (() => {
         pubsub.publish("checkMoveData", returnData);
     };
 
+    const loopMoves = (data) => {
+        // console.log("loop moves");
+        // console.log(data);
+
+        Object.entries(data.movePos).forEach(([key, value]) => {
+            if (value === null) {
+                return;
+            }
+
+            console.log(`value is: ${value}`);
+
+            if (value === data.end) {
+                console.log("destination found");
+                return;
+            }
+
+            const newObj = {
+                start: value,
+                end: data.end,
+                board: data.board,
+            };
+
+            console.log(newObj);
+
+            // calcPossibleMoves(newObj);
+        });
+    };
+
     const knightMoves = (data) => {
         pubsub.publish("checkBaseData", data);
 
         console.log("knight func");
     };
+
+    // const test = (value) => {
+    //     const lol = pubsub.publish("testStuff", value);
+
+    //     console.log(lol);
+    //     console.log("did this work");
+    // };
 
     // const preKnightMoves = (data) => {
     //     console.log("pre move");
@@ -48,6 +83,8 @@ export const knight = (() => {
     // pubsub.subscribe("pageLoad", preKnightMoves);
 
     pubsub.subscribe("postCheckBaseData", calcPossibleMoves);
+
+    pubsub.subscribe("postCheckMoveData", loopMoves);
 
     return {
         knightMoves,
