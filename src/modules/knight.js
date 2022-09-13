@@ -3,6 +3,12 @@ import { pubsub } from "./pubsub";
 export const knight = (() => {
     // Private variables/functions
 
+    const _arrayEquals = (a, b) =>
+        Array.isArray(a) &&
+        Array.isArray(b) &&
+        a.length === b.length &&
+        a.every((val, index) => val === b[index]);
+
     // Public variables/functions
     const calcPossibleMoves = (data) => {
         console.log(data);
@@ -34,7 +40,7 @@ export const knight = (() => {
     };
 
     const loopMoves = (data) => {
-        // console.log("loop moves");
+        console.log("loop moves");
         // console.log(data);
 
         Object.entries(data.movePos).forEach(([key, value]) => {
@@ -44,7 +50,7 @@ export const knight = (() => {
 
             console.log(`value is: ${value}`);
 
-            if (value === data.end) {
+            if (_arrayEquals(value, data.end)) {
                 console.log("destination found");
                 return;
             }
@@ -57,7 +63,7 @@ export const knight = (() => {
 
             console.log(newObj);
 
-            // calcPossibleMoves(newObj);
+            calcPossibleMoves(newObj);
         });
     };
 

@@ -14,6 +14,13 @@ console.log("test");
 
 console.log("lol");
 
+const a = [0, 0];
+const b = [0, 0];
+
+if (a === b) {
+    console.log("equal");
+}
+
 /*
 
 NOTES
@@ -30,4 +37,10 @@ Create gameboard similar to Tic Tac Toe board?
     How dow this accomplish getting to another spot as quickly as possible?
     Use board as quick wway to check coordinates are valid?
         If the coords don't exist in array then don't run function.
+
+
+NOTES 09/12
+    Use Levelorder
+        create queue and slowl go through them that way.
+        Move the boardarray to knight alongside the other board items
 */
