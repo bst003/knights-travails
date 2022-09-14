@@ -1,4 +1,5 @@
 import { pubsub } from "./pubsub";
+import { board } from "./board";
 
 export const knight = (() => {
     // Private variables/functions
@@ -36,7 +37,7 @@ export const knight = (() => {
             end: data.end,
         };
 
-        pubsub.publish("checkMoveData", returnData);
+        // pubsub.publish("checkMoveData", returnData);
     };
 
     const loopMoves = (data) => {
@@ -68,7 +69,12 @@ export const knight = (() => {
     };
 
     const knightMoves = (data) => {
-        pubsub.publish("checkBaseData", data);
+        // pubsub.publish("checkBaseData", data);
+
+        const validBase = board.validBasePos(data);
+        if (!validBase) {
+            return;
+        }
 
         console.log("knight func");
     };

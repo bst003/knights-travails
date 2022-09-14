@@ -21,17 +21,15 @@ export const board = (() => {
         console.log("anote test");
     };
 
-    const checkBasePos = (data) => {
+    const validBasePos = (data) => {
         if (!data.start || !data.end) {
             console.error("data must have start and end keys");
-            return;
+            return false;
         }
 
         const startPos = data.start;
         const startPosX = startPos[0];
         const startPosY = startPos[1];
-
-        // console.log(startPosX);
 
         const endPos = data.end;
         const endPosX = endPos[0];
@@ -42,7 +40,7 @@ export const board = (() => {
             boardArray[startPosY] === undefined
         ) {
             console.error("the start value does not exists on the board");
-            return;
+            return false;
         }
 
         if (
@@ -50,16 +48,10 @@ export const board = (() => {
             boardArray[endPosY] === undefined
         ) {
             console.error("the end value does not exists on the board");
-            return;
+            return false;
         }
 
-        const newData = {
-            start: data.start,
-            end: data.end,
-            board: boardArray,
-        };
-
-        pubsub.publish("postCheckBaseData", newData);
+        return true;
     };
 
     const checkMovePos = (data) => {
@@ -84,21 +76,23 @@ export const board = (() => {
 
         console.log(newData);
 
-        pubsub.publish("postCheckMoveData", newData);
+        // pubsub.publish("postCheckMoveData", newData);
     };
 
     // const altTest = (value) => value.toUpperCase();
 
     // Pubsubs
-    pubsub.subscribe("pageLoad", boardFunc);
+    // pubsub.subscribe("pageLoad", boardFunc);
 
-    pubsub.subscribe("checkBaseData", checkBasePos);
+    // pubsub.subscribe("checkBaseData", checkBasePos);
 
-    pubsub.subscribe("checkMoveData", checkMovePos);
+    // pubsub.subscribe("checkMoveData", checkMovePos);
 
     // pubsub.subscribe("testStuff", altTest);
 
-    return {};
+    return {
+        validBasePos,
+    };
 })();
 
 export default { board };

@@ -38,7 +38,6 @@ Create gameboard similar to Tic Tac Toe board?
     Use board as quick wway to check coordinates are valid?
         If the coords don't exist in array then don't run function.
 
-
 NOTES 09/12
     Use Levelorder
         create queue and slowl go through them that way.
