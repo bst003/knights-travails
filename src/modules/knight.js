@@ -70,10 +70,32 @@ export const knight = (() => {
 
     const knightMoves = (data) => {
         // pubsub.publish("checkBaseData", data);
+        const queue = [];
 
         const validBase = board.validBasePos(data);
+
+        // Stop function if values aren't valid
         if (!validBase) {
             return;
+        }
+
+        const firstVal = {
+            prevVals: null,
+            value: data.start,
+        };
+
+        queue.push(firstVal);
+
+        console.log("queue begins");
+        while (queue.length !== 0) {
+            console.log(queue[0]);
+
+            if (_arrayEquals(queue[0].value, data.end)) {
+                console.log("end point found");
+                break;
+            }
+
+            queue.shift();
         }
 
         console.log("knight func");
