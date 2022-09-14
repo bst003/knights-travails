@@ -21,7 +21,7 @@ export const board = (() => {
         console.log("anote test");
     };
 
-    const validBasePos = (data) => {
+    const checkValidBasePos = (data) => {
         if (!data.start || !data.end) {
             console.error("data must have start and end keys");
             return false;
@@ -54,28 +54,20 @@ export const board = (() => {
         return true;
     };
 
-    const checkMovePos = (data) => {
-        const newData = data;
-
-        console.log(data);
-
+    const checkMovesValid = (moves) => {
+        const moveData = moves;
         console.log("checking singe move");
 
-        Object.entries(newData.movePos).forEach(([key, value]) => {
+        Object.entries(moveData).forEach(([key, value]) => {
             if (
                 boardArray[value[0]] === undefined ||
                 boardArray[value[1]] === undefined
             ) {
-                newData.movePos[key] = null;
+                moveData[key] = null;
             }
         });
 
-        console.log("testing post entries");
-
-        newData.board = boardArray;
-
-        console.log(newData);
-
+        return moveData;
         // pubsub.publish("postCheckMoveData", newData);
     };
 
@@ -91,7 +83,8 @@ export const board = (() => {
     // pubsub.subscribe("testStuff", altTest);
 
     return {
-        validBasePos,
+        checkValidBasePos,
+        checkMovesValid,
     };
 })();
 

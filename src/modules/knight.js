@@ -11,11 +11,10 @@ export const knight = (() => {
         a.every((val, index) => val === b[index]);
 
     // Public variables/functions
-    const calcPossibleMoves = (data) => {
-        console.log(data);
+    const calcPossibleMoves = (startPoint) => {
         // console.log("calc moves");
 
-        const startPos = data.start;
+        const startPos = startPoint;
         const startPosX = startPos[0];
         const startPosY = startPos[1];
 
@@ -30,49 +29,44 @@ export const knight = (() => {
         movePos.leftDown = [startPosX - 2, startPosY - 1];
         movePos.leftDown = [startPosX - 2, startPosY + 1];
 
-        console.log(movePos);
-
-        const returnData = {
-            movePos,
-            end: data.end,
-        };
+        return movePos;
 
         // pubsub.publish("checkMoveData", returnData);
     };
 
-    const loopMoves = (data) => {
-        console.log("loop moves");
-        // console.log(data);
+    // const loopMoves = (data) => {
+    //     console.log("loop moves");
+    //     // console.log(data);
 
-        Object.entries(data.movePos).forEach(([key, value]) => {
-            if (value === null) {
-                return;
-            }
+    //     Object.entries(data.movePos).forEach(([key, value]) => {
+    //         if (value === null) {
+    //             return;
+    //         }
 
-            console.log(`value is: ${value}`);
+    //         console.log(`value is: ${value}`);
 
-            if (_arrayEquals(value, data.end)) {
-                console.log("destination found");
-                return;
-            }
+    //         if (_arrayEquals(value, data.end)) {
+    //             console.log("destination found");
+    //             return;
+    //         }
 
-            const newObj = {
-                start: value,
-                end: data.end,
-                board: data.board,
-            };
+    //         const newObj = {
+    //             start: value,
+    //             end: data.end,
+    //             board: data.board,
+    //         };
 
-            console.log(newObj);
+    //         console.log(newObj);
 
-            calcPossibleMoves(newObj);
-        });
-    };
+    //         calcPossibleMoves(newObj);
+    //     });
+    // };
 
     const knightMoves = (data) => {
         // pubsub.publish("checkBaseData", data);
         const queue = [];
 
-        const validBase = board.validBasePos(data);
+        const validBase = board.checkValidBasePos(data);
 
         // Stop function if values aren't valid
         if (!validBase) {
@@ -94,6 +88,11 @@ export const knight = (() => {
                 console.log("end point found");
                 break;
             }
+
+            const posMoves = calcPossibleMoves(queue[0].value);
+            const validPosMoves = board.checkMovesValid(posMoves);
+
+            console.log(validPosMoves);
 
             queue.shift();
         }
@@ -118,7 +117,7 @@ export const knight = (() => {
 
     pubsub.subscribe("postCheckBaseData", calcPossibleMoves);
 
-    pubsub.subscribe("postCheckMoveData", loopMoves);
+    // pubsub.subscribe("postCheckMoveData", loopMoves);
 
     return {
         knightMoves,
