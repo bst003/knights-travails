@@ -94,6 +94,27 @@ export const knight = (() => {
 
             console.log(validPosMoves);
 
+            Object.entries(validPosMoves).forEach(([key, value]) => {
+                if (value === null) {
+                    return;
+                }
+
+                console.log(`${key}: ${value}`);
+
+                const posData = {
+                    value: key,
+                };
+
+                if (queue[0].prevVals === null) {
+                    posData.prevVals = queue[0].value;
+                } else {
+                    posData.prevVals = queue[0].prevVals;
+                    posData.prevVals.push(queue[0].value);
+                }
+
+                console.log(posData);
+            });
+
             queue.shift();
         }
 
