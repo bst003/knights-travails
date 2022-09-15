@@ -2,10 +2,7 @@ import { pubsub } from "./pubsub";
 
 export const board = (() => {
     // Private variables/functions
-
-    // Public variables/functions
-
-    const boardArray = [
+    const _boardArray = [
         ["", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", ""],
@@ -16,6 +13,7 @@ export const board = (() => {
         ["", "", "", "", "", "", "", ""],
     ];
 
+    // Public variables/functions
     const checkValidBasePos = (data) => {
         if (!data.start || !data.end) {
             return false;
@@ -30,15 +28,15 @@ export const board = (() => {
         const endPosY = endPos[1];
 
         if (
-            boardArray[startPosX] === undefined ||
-            boardArray[startPosY] === undefined
+            _boardArray[startPosX] === undefined ||
+            _boardArray[startPosY] === undefined
         ) {
             return false;
         }
 
         if (
-            boardArray[endPosX] === undefined ||
-            boardArray[endPosY] === undefined
+            _boardArray[endPosX] === undefined ||
+            _boardArray[endPosY] === undefined
         ) {
             return false;
         }
@@ -55,8 +53,8 @@ export const board = (() => {
             }
 
             if (
-                boardArray[value[0]] === undefined ||
-                boardArray[value[1]] === undefined
+                _boardArray[value[0]] === undefined ||
+                _boardArray[value[1]] === undefined
             ) {
                 moveData[key] = null;
             }
