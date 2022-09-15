@@ -11,14 +11,23 @@ export const knight = (() => {
         a.every((val, index) => val === b[index]);
 
     // Public variables/functions
-    const calcPossibleMoves = (startPoint) => {
-        // console.log("calc moves");
+    const calcPossibleMoves = (data) => {
+        console.log("calc moves");
+        console.log(data);
 
-        const startPos = startPoint;
+        const startPos = data.value;
         const startPosX = startPos[0];
         const startPosY = startPos[1];
 
         const movePos = {};
+
+        if (data.prevVals === null) {
+            movePos.prevVals = JSON.parse(JSON.stringify(startPos));
+            console.log("should be null at fist");
+            console.log(movePos.prevVals);
+        } else {
+            movePos.prevVals = JSON.parse(JSON.stringify(data.prevVals));
+        }
 
         movePos.upLeft = [startPosX - 1, startPosY + 2];
         movePos.upRight = [startPosX + 1, startPosY + 2];
@@ -73,46 +82,56 @@ export const knight = (() => {
             return;
         }
 
+        console.log(`start data: ${data.start}`);
+
         const firstVal = {
             prevVals: null,
             value: data.start,
         };
 
+        console.log(firstVal);
+
         queue.push(firstVal);
 
         console.log("queue begins");
         while (queue.length !== 0) {
-            console.log(queue[0]);
+            console.log(`value is: ${queue[0].value}`);
 
             if (_arrayEquals(queue[0].value, data.end)) {
                 console.log("end point found");
+                console.log(queue[0]);
                 break;
             }
 
-            const posMoves = calcPossibleMoves(queue[0].value);
+            console.log("before calcMoves");
+            console.log(queue[0]);
+            const posMoves = calcPossibleMoves(queue[0]);
             const validPosMoves = board.checkMovesValid(posMoves);
 
+            console.log(`valid moves below from ${queue[0].value}`);
             console.log(validPosMoves);
 
             Object.entries(validPosMoves).forEach(([key, value]) => {
-                if (value === null) {
+                if (value === null || key === "prevVals") {
+                    console.log("return on prevVals");
                     return;
                 }
 
-                console.log(`${key}: ${value}`);
+                console.log(`${key}: ${value}, should never be prevVals`);
 
                 const posData = {
-                    value: key,
+                    value,
+                    prevVals: JSON.parse(
+                        JSON.stringify(validPosMoves.prevVals)
+                    ),
                 };
 
-                if (queue[0].prevVals === null) {
-                    posData.prevVals = queue[0].value;
-                } else {
-                    posData.prevVals = queue[0].prevVals;
-                    posData.prevVals.push(queue[0].value);
-                }
+                posData.prevVals.push(value);
 
+                console.log(`post data for ${value}`);
                 console.log(posData);
+
+                queue.push(posData);
             });
 
             queue.shift();

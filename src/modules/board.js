@@ -59,6 +59,10 @@ export const board = (() => {
         console.log("checking singe move");
 
         Object.entries(moveData).forEach(([key, value]) => {
+            if (key === "prevVals") {
+                return;
+            }
+
             if (
                 boardArray[value[0]] === undefined ||
                 boardArray[value[1]] === undefined
