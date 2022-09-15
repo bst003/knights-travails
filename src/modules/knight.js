@@ -22,7 +22,7 @@ export const knight = (() => {
         const movePos = {};
 
         if (data.prevVals === null) {
-            movePos.prevVals = JSON.parse(JSON.stringify(startPos));
+            movePos.prevVals = data.value;
             console.log("should be null at fist");
             console.log(movePos.prevVals);
         } else {
@@ -96,6 +96,8 @@ export const knight = (() => {
         console.log("queue begins");
         while (queue.length !== 0) {
             console.log(`value is: ${queue[0].value}`);
+            console.log(queue[0]);
+            console.log("why");
 
             if (_arrayEquals(queue[0].value, data.end)) {
                 console.log("end point found");
@@ -121,12 +123,22 @@ export const knight = (() => {
 
                 const posData = {
                     value,
-                    prevVals: JSON.parse(
-                        JSON.stringify(validPosMoves.prevVals)
-                    ),
+                    prevVals: null,
                 };
 
-                posData.prevVals.push(value);
+                if (_arrayEquals(validPosMoves.prevVals, data.start)) {
+                    posData.prevVals = [validPosMoves.prevVals];
+                } else {
+                    posData.prevVals = JSON.parse(
+                        JSON.stringify(validPosMoves.prevVals)
+                    );
+                }
+
+                const valArray = JSON.parse(JSON.stringify(value));
+
+                console.log(valArray);
+
+                posData.prevVals.push(valArray);
 
                 console.log(`post data for ${value}`);
                 console.log(posData);
