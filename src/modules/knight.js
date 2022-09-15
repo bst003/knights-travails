@@ -3,7 +3,6 @@ import { board } from "./board";
 
 export const knight = (() => {
     // Private variables/functions
-
     const _arrayEquals = (a, b) =>
         Array.isArray(a) &&
         Array.isArray(b) &&
@@ -12,8 +11,8 @@ export const knight = (() => {
 
     // Public variables/functions
     const calcPossibleMoves = (data) => {
-        console.log("calc moves");
-        console.log(data);
+        // console.log("calc moves");
+        // console.log(data);
 
         const startPos = data.value;
         const startPosX = startPos[0];
@@ -23,20 +22,20 @@ export const knight = (() => {
 
         if (data.prevVals === null) {
             movePos.prevVals = data.value;
-            console.log("should be null at fist");
-            console.log(movePos.prevVals);
+            // console.log("should be null at fist");
+            // console.log(movePos.prevVals);
         } else {
             movePos.prevVals = JSON.parse(JSON.stringify(data.prevVals));
         }
 
-        movePos.upLeft = [startPosX - 1, startPosY + 2];
-        movePos.upRight = [startPosX + 1, startPosY + 2];
-        movePos.rightUp = [startPosX + 2, startPosY + 1];
-        movePos.rightDown = [startPosX + 2, startPosY - 1];
-        movePos.downRight = [startPosX + 1, startPosY - 2];
-        movePos.downLeft = [startPosX - 1, startPosY - 2];
-        movePos.leftDown = [startPosX - 2, startPosY - 1];
+        movePos.upLeft = [startPosX - 1, startPosY - 2];
+        movePos.upRight = [startPosX + 1, startPosY - 2];
+        movePos.rightUp = [startPosX + 2, startPosY - 1];
+        movePos.rightDown = [startPosX + 2, startPosY + 1];
+        movePos.downRight = [startPosX + 1, startPosY + 2];
+        movePos.downLeft = [startPosX - 1, startPosY + 2];
         movePos.leftDown = [startPosX - 2, startPosY + 1];
+        movePos.leftDown = [startPosX - 2, startPosY - 1];
 
         return movePos;
 
@@ -74,6 +73,7 @@ export const knight = (() => {
     const knightMoves = (data) => {
         // pubsub.publish("checkBaseData", data);
         const queue = [];
+        let finalMoves;
 
         const validBase = board.checkValidBasePos(data);
 
@@ -82,44 +82,45 @@ export const knight = (() => {
             return;
         }
 
-        console.log(`start data: ${data.start}`);
+        // console.log(`start data: ${data.start}`);
 
         const firstVal = {
             prevVals: null,
             value: data.start,
         };
 
-        console.log(firstVal);
+        // console.log(firstVal);
 
         queue.push(firstVal);
 
-        console.log("queue begins");
+        // console.log("queue begins");
         while (queue.length !== 0) {
-            console.log(`value is: ${queue[0].value}`);
-            console.log(queue[0]);
-            console.log("why");
+            // console.log(`value is: ${queue[0].value}`);
+            // console.log(queue[0]);
+            // console.log("why");
 
             if (_arrayEquals(queue[0].value, data.end)) {
-                console.log("end point found");
-                console.log(queue[0]);
+                // console.log("end point found");
+                // console.log(queue[0]);
+                finalMoves = JSON.parse(JSON.stringify(queue[0].prevVals));
                 break;
             }
 
-            console.log("before calcMoves");
-            console.log(queue[0]);
+            // console.log("before calcMoves");
+            // console.log(queue[0]);
             const posMoves = calcPossibleMoves(queue[0]);
             const validPosMoves = board.checkMovesValid(posMoves);
 
-            console.log(`valid moves below from ${queue[0].value}`);
-            console.log(validPosMoves);
+            // console.log(`valid moves below from ${queue[0].value}`);
+            // console.log(validPosMoves);
 
             Object.entries(validPosMoves).forEach(([key, value]) => {
                 if (value === null || key === "prevVals") {
-                    console.log("return on prevVals");
+                    // console.log("return on prevVals");
                     return;
                 }
 
-                console.log(`${key}: ${value}, should never be prevVals`);
+                // console.log(`${key}: ${value}, should never be prevVals`);
 
                 const posData = {
                     value,
@@ -136,12 +137,12 @@ export const knight = (() => {
 
                 const valArray = JSON.parse(JSON.stringify(value));
 
-                console.log(valArray);
+                // console.log(valArray);
 
                 posData.prevVals.push(valArray);
 
-                console.log(`post data for ${value}`);
-                console.log(posData);
+                // console.log(`post data for ${value}`);
+                // console.log(posData);
 
                 queue.push(posData);
             });
@@ -149,7 +150,7 @@ export const knight = (() => {
             queue.shift();
         }
 
-        console.log("knight func");
+        console.log(finalMoves);
     };
 
     // const test = (value) => {
