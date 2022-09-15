@@ -1,4 +1,3 @@
-import { pubsub } from "./pubsub";
 import { board } from "./board";
 
 export const knight = (() => {
@@ -93,11 +92,7 @@ export const knight = (() => {
         console.log(finalMoves);
     };
 
-    pubsub.subscribe("postCheckBaseData", calcPossibleMoves);
-
     return {
         knightMoves,
     };
 })();
-
-// export default { knight };

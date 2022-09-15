@@ -1,5 +1,3 @@
-import { pubsub } from "./pubsub";
-
 export const board = (() => {
     // Private variables/functions
     const _boardArray = [
